@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Handy Helper Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'belt_app/css/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top bg-light">
+      <div class="container">
+        <div class="navbar-header">
+          <h1 class="navbar-brand" href="/">Hello {{request.session.first_name}}!</h1>
+        </div>
+          <ul class="nav navbar-nav navbar-right">
+            
+            
+            <li><a href="/logout">Logout</a></li>
+            <li><a class="btn btn-primary" href="/jobs/new">New Job!</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+        <h4>Everyone's jobs</h4>
+        <table class="table table-dark table-striped">
+            <th>Job</th>
+            <th>Location</th>
+            <th>Actions</th>
+            {% for job in jobs %}
+                {% if job not in user.current_jobs.all %}
+                    {% if job.workers.all.count < 1%}
+                    <tr>
+                        <td>{{job.title}}</td>
+                        <td>{{job.location}}</td>
+                        <td>
+                            <a href="/jobs/{{job.id}}">View</a> |
+                            {% if job in user.jobs_created.all %}
+                            <a href="/remove/{{job.id}}">Remove</a> |
+                            <a href="/jobs/edit/{{job.id}}">Edit</a> |
+                            {% endif %}
+                            <a href="/add/{{job.id}}">Add</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endif %}
+                
+            {% endfor %}
+
+
+        </table>
+    </div>
+
+    <div class="container">
+        <h4>{{request.session.first_name}}'s jobs</h4>
+        <table class="table table-dark table-striped">
+            <th>Job</th>
+            <th>Actions</th>
+            {% if user.current_jobs != None %}
+            {% for job in user.current_jobs.all %}
+                <tr>
+                    <td>{{job.title}}</td>
+                    <td>
+                        <a href="/jobs/{{job.id}}">View</a> |
+                        <a href="/remove/{{job.id}}">Done</a> |
+                        <a href="/quit/{{job.id}}">Give up</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            {% endif  %}
+
+        </table>
+    </div>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

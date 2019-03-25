@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Job</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'belt_app/css/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top bg-light">
+      <div class="container">
+        <div class="navbar-header">
+          <h1 class="navbar-brand" href="/">Hello {{request.session.first_name}}! These are the job details!</h1>
+        </div>
+          <ul class="nav navbar-nav navbar-right">
+            
+            
+            <li><a href="/logout">Logout</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container p-5">
+        <h4>{{job.title}}</h4>
+        <div class="container p-2">
+            <p>{{job.desc}}</p>
+            <p>Location: {{ job.location }}</p>
+            <p>Posted by: {{job.created_by}}</p>
+            <p>Posted on: {{job.created_at|date:"M d, Y"}}</p>
+
+            <p>Categories: 
+                {% for category in job.categories.all %}
+                    {{category.category}},
+
+                {% endfor %}
+
+            </p>
+        </div>
+    </div>
+</body>
+</html>

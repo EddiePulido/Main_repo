@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Job</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'belt_app/css/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top bg-light">
+      <div class="container">
+        <div class="navbar-header">
+          <h1 class="navbar-brand" href="/">Hello {{request.session.first_name}}! Let's edit your job!</h1>
+        </div>
+          <ul class="nav navbar-nav navbar-right">
+            
+            
+            <li><a href="/logout">Logout</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container p-5 align-center">
+        <form class="form p-5" action="/jobs/update" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="id" value={{job.id}}>
+            <p>Title: </p>
+            {% if messages %}
+                    {% for message in messages %}
+                        {% if 'title' in message.tags %}
+                         <p class="text-danger">{{ message}}</p>
+                         {% endif %}
+                     {% endfor %}   
+                {% endif %}
+            <input type="text" name="title" value="{{job.title}}">
+            <p>Description:</p>
+            {% if messages %}
+                    {% for message in messages %}
+                        {% if 'description' in message.tags %}
+                         <p class="text-danger">{{ message}}</p>
+                         {% endif %}
+                     {% endfor %}   
+                {% endif %}
+            <input type="text" name="description" value="{{job.desc}}">
+            <p>Location:</p>
+            {% if messages %}
+                    {% for message in messages %}
+                        {% if 'location' in message.tags %}
+                         <p class="text-danger">{{ message}}</p>
+                         {% endif %}
+                     {% endfor %}   
+                {% endif %}
+            <input type="text" name="location" value="{{job.location}}">
+            <div>
+                <a href="/dashboard" class="btn btn-danger">Cancel</a>
+                <input class="btn btn-primary d-inline-block" type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
