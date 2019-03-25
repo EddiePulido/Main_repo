@@ -27,10 +27,10 @@
 
     <div class="container p-5">
         <h4>{{job.title}}</h4>
-        <div class="container p-2">
+        <div class="container p-2 border">
             <p>{{job.desc}}</p>
             <p>Location: {{ job.location }}</p>
-            <p>Posted by: {{job.created_by}}</p>
+            <p>Posted by: {{job.created_by.first_name}}</p>
             <p>Posted on: {{job.created_at|date:"M d, Y"}}</p>
 
             <p>Categories: 
@@ -40,7 +40,15 @@
                 {% endfor %}
 
             </p>
+
         </div>
+        {% if job in user.current_jobs.all %}
+            <a href="/quit/{{job.id}}">Give Up</a>
+
+        {% else %}
+            <a href="/add/{{job.id}}">Add to my jobs</a>
+        {% endif %}
+
     </div>
 </body>
 </html>
